@@ -1,4 +1,10 @@
-import { DataTypes, Model, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize';
+import {
+  DataTypes,
+  Model,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+} from 'sequelize';
 
 import db from '.';
 
@@ -38,4 +44,4 @@ SequelizeUser.init({
   sequelize: db,
   modelName: 'users',
   timestamps: false,
-})
+});

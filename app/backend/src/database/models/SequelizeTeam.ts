@@ -1,4 +1,10 @@
-import { DataTypes, Model, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize';
+import {
+  DataTypes,
+  Model,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+} from 'sequelize';
 
 import db from '.';
 
@@ -19,9 +25,9 @@ SequelizeTeam.init({
   teamName: {
     type: DataTypes.STRING,
     allowNull: false,
-  }
+  },
 }, {
   sequelize: db,
   modelName: 'teams',
   timestamps: false,
-})
+});

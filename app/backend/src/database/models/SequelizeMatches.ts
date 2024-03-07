@@ -1,4 +1,10 @@
-import { DataTypes, Model, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize';
+import {
+  DataTypes,
+  Model,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+} from 'sequelize';
 
 import db from '.';
 
@@ -22,30 +28,30 @@ SequelizeMatches.init({
   homeTeamId: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    field: 'home_team_id'
+    field: 'home_team_id',
   },
   homeTeamGoals: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    field: 'home_team_goals'
+    field: 'home_team_goals',
   },
   awayTeamId: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    field: 'away_team_id'
+    field: 'away_team_id',
   },
   awayTeamGoals: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    field: 'away_team_goals'
+    field: 'away_team_goals',
   },
   inProgress: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
-    field: 'in_progress'
+    field: 'in_progress',
   },
 }, {
   sequelize: db,
   modelName: 'matches',
   timestamps: false,
-})
+});
