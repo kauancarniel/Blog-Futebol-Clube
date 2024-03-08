@@ -21,7 +21,7 @@ export default class UserService {
 
   public async login(email: IUser['email'], password: IUser['password'])
     : Promise<ServiceResponse<Token>> {
-    const user = await this.userModel.login(email) as any;
+    const user = await this.userModel.login(email);
     if (!user || !bcrypt.compareSync(password, user.dataValues.password)) {
       return { status: 'UNAUTHORIZED', data: { message: 'Username ou password inválidos' } };
     }
