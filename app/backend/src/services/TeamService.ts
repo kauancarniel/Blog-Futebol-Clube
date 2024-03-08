@@ -11,4 +11,9 @@ export default class TeamService {
     const data = await this.teamModel.findAll();
     return data;
   }
+
+  public async findById(id: number): Promise<ITeam | null> {
+    const data = await this.teamModel.findById(id);
+    return data;
+  }
 }
