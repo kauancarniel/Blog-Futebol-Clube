@@ -8,7 +8,6 @@ import { ServiceResponse } from '../Interfaces/ServiceResponse';
 // , password: IUser['password']
 
 type Token = { token: string };
-const secret = process.env.JWT_SECRET || 'secret';
 type TokenPayload = {
   id: number,
   username: string,
@@ -22,6 +21,7 @@ export default class UserService {
   public async login(email: IUser['email'], password: IUser['password'])
     : Promise<ServiceResponse<Token>> {
     const user = await this.userModel.login(email);
+
     if (!user || !bcrypt.compareSync(password, user.dataValues.password)) {
       return { status: 'UNAUTHORIZED', data: { message: 'Username ou password inválidos' } };
     }
@@ -29,12 +29,20 @@ export default class UserService {
     const { id, username } = user.dataValues;
 
     const sign = (payload: TokenPayload): string => {
-      const token = jwt.sign(payload, secret);
+      const token = jwt.sign(payload, 'secret');
       return token;
     };
 
     const token = sign({ id, username });
 
     return { status: 'SUCCESSFUL', data: { token } };
+  }
+
+  public async getRole(username: IUser['username']) : Promise<ServiceResponse<string>> {
+    const data = await this.userModel.getRole(username);
+    if (!data) {
+      return { status: 'UNAUTHORIZED', data: { message: '' } };
+    }
+    return { status: 'SUCCESSFUL', data: data.dataValues.role };
   }
 }

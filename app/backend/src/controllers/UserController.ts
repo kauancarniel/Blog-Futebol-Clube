@@ -14,4 +14,12 @@ export default class UserController {
     }
     res.status(200).json(data.data);
   }
+
+  public async getRole(req: Request, res: Response) {
+    const { info } = req.body;
+
+    const data = await this.userService.getRole(info.username);
+
+    res.status(200).json({ role: data.data });
+  }
 }
