@@ -1,5 +1,5 @@
 import MatchModel from '../models/MatchModel';
-import { IMatchModel } from '../Interfaces/matches/IMatchesModel';
+import { IMatchModel, matchType } from '../Interfaces/matches/IMatchesModel';
 import { IMatch } from '../Interfaces/matches/IMatches';
 
 export default class MatchService {
@@ -27,5 +27,10 @@ export default class MatchService {
   public async updateMatch(homeTeamGoals: number, awayTeamGoals: number, id: number)
     : Promise<void> {
     await this.matchModel.updateMatch(homeTeamGoals, awayTeamGoals, id);
+  }
+
+  async newMatch(matchInfos : matchType) : Promise<IMatch> {
+    const match = await this.matchModel.newMatch(matchInfos);
+    return match;
   }
 }

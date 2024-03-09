@@ -28,4 +28,14 @@ export default class MatchController {
 
     res.status(200).json({ message: 'Success' });
   }
+
+  public async newMatch(req: Request, res: Response) {
+    const { homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals } = req.body;
+
+    const match = await this.matchService.newMatch(
+      { homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals, inProgress: true },
+    );
+
+    res.status(201).json(match);
+  }
 }
