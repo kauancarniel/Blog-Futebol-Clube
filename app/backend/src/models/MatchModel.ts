@@ -14,4 +14,24 @@ export default class MatchModel implements IMatchModel {
       ] });
     return data;
   }
+
+  async findAllInProgress(): Promise<IMatch[]> {
+    const data = await this.model.findAll({
+      where: { inProgress: true },
+      include: [
+        { model: SequelizeTeam, as: 'homeTeam', attributes: { exclude: ['id'] } },
+        { model: SequelizeTeam, as: 'awayTeam', attributes: { exclude: ['id'] } },
+      ] });
+    return data;
+  }
+
+  async findAllFinished(): Promise<IMatch[]> {
+    const data = await this.model.findAll({
+      where: { inProgress: false },
+      include: [
+        { model: SequelizeTeam, as: 'homeTeam', attributes: { exclude: ['id'] } },
+        { model: SequelizeTeam, as: 'awayTeam', attributes: { exclude: ['id'] } },
+      ] });
+    return data;
+  }
 }

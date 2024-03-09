@@ -7,7 +7,15 @@ export default class MatchService {
     private matchModel: IMatchModel = new MatchModel(),
   ) {}
 
-  public async findAll(): Promise<IMatch[]> {
+  public async findAll(progress : string): Promise<IMatch[]> {
+    if (progress === 'true') {
+      const data = await this.matchModel.findAllInProgress();
+      return data;
+    }
+    if (progress === 'false') {
+      const data = await this.matchModel.findAllFinished();
+      return data;
+    }
     const data = await this.matchModel.findAll();
     return data;
   }
