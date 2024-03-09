@@ -64,7 +64,7 @@ describe('User tests', function() {
     const req = await chai.request(app).get('/login/role');
 
     expect(req.status).to.equal(401);
-    expect(req.body).to.have.key('Token not found');
+    expect(req.body).to.be.deep.equal({ message: 'Token not found' })
   })
 
   afterEach(sinon.restore);

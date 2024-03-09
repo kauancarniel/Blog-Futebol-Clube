@@ -5,4 +5,5 @@ export interface IMatchModel {
   findAllInProgress() : Promise<IMatch[]>
   findAllFinished() : Promise<IMatch[]>
   finishMatch(id: number) : Promise<void>
+  updateMatch(homeTeamGoals: number, awayTeamGoals: number, id: number) : Promise<void>
 }

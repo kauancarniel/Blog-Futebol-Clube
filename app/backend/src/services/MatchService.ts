@@ -23,4 +23,9 @@ export default class MatchService {
   public async finishMatch(id: number) : Promise<void> {
     await this.matchModel.finishMatch(id);
   }
+
+  public async updateMatch(homeTeamGoals: number, awayTeamGoals: number, id: number)
+    : Promise<void> {
+    await this.matchModel.updateMatch(homeTeamGoals, awayTeamGoals, id);
+  }
 }
