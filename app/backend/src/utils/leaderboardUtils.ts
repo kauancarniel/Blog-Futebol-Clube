@@ -31,9 +31,8 @@ export default class LeadUtils {
         if (match.homeTeamGoals > match.awayTeamGoals) this.victories += 1;
         this.games += 1;
         this.homeGoals += match.homeTeamGoals;
-        this.awayGoals = match.awayTeamGoals;
-      }
-      this.data = { points: this.homePoints,
+        this.awayGoals += match.awayTeamGoals;
+      } this.data = { points: this.homePoints,
         games: this.games,
         victories: this.victories,
         draws: this.draws,

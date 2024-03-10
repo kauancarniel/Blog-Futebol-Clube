@@ -2,24 +2,29 @@ import MatchModel from '../models/MatchModel';
 import TeamModel from '../models/TeamModel';
 import { IMatchModel } from '../Interfaces/matches/IMatchesModel';
 import { ILeaderboard } from '../Interfaces/leaderboard/ILeaderboard';
+import { ITeam } from '../Interfaces/teams/ITeams';
 import LeadUtils from '../utils/leaderboardUtils';
-// import { IMatch } from '../Interfaces/matches/IMatches';
+import { IMatch } from '../Interfaces/matches/IMatches';
 
 export default class LeaderboardService {
   constructor(
     private matchModel: IMatchModel = new MatchModel(),
     private teamModel = new TeamModel(),
-  ) {}
+    public teams: ITeam[] = [],
+    public matchs: IMatch[] = [],
+  ) { this.func(); }
+
+  public async func() : Promise<void> {
+    this.teams = await this.teamModel.findAll();
+    this.matchs = await this.matchModel.findAllFinished();
+  }
 
   public async leaderboard() : Promise<ILeaderboard[]> {
-    const teams = await this.teamModel.findAll();
-    const matchs = await this.matchModel.findAllFinished();
     const retorno : ILeaderboard[] = [] as unknown as ILeaderboard[];
-    teams.forEach((team) => {
+    this.teams.forEach((team) => {
       const leadUtils = new LeadUtils();
-      const infos = leadUtils.getInfos(matchs, team.id);
-      retorno.push({
-        name: team.teamName,
+      const infos = leadUtils.getInfos(this.matchs, team.id);
+      retorno.push({ name: team.teamName,
         totalPoints: infos.points,
         totalGames: infos.games,
         totalVictories: infos.victories,
@@ -27,6 +32,8 @@ export default class LeaderboardService {
         totalLosses: (infos.games - infos.victories - infos.draws),
         goalsFavor: infos.homeGoals,
         goalsOwn: infos.awayGoals,
+        goalsBalance: (infos.homeGoals - infos.awayGoals),
+        efficiency: Number(((infos.points / (infos.games * 3)) * 100).toFixed(2)),
       });
     });
 
