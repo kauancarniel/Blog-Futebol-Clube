@@ -25,4 +25,24 @@ export default class LeaderboardController {
 
     res.status(200).json(data);
   }
+
+  public async leaderboardAway(_req: Request, res: Response) {
+    const data = await this.leaderboardService.leaderboardAway();
+    data.sort((a, b) => {
+      if (b.totalPoints !== a.totalPoints) {
+        return b.totalPoints - a.totalPoints;
+      }
+
+      const goalDifA = a.goalsFavor - a.goalsOwn;
+      const goalDifB = b.goalsFavor - b.goalsOwn;
+
+      if (goalDifB !== goalDifA) {
+        return goalDifB - goalDifA;
+      }
+
+      return b.goalsFavor - a.goalsFavor;
+    });
+
+    res.status(200).json(data);
+  }
 }

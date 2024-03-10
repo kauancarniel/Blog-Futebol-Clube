@@ -39,4 +39,25 @@ export default class LeaderboardService {
 
     return retorno as ILeaderboard[];
   }
+
+  public async leaderboardAway() : Promise<ILeaderboard[]> {
+    const retorno : ILeaderboard[] = [] as unknown as ILeaderboard[];
+    this.teams.forEach((team) => {
+      const leadUtils = new LeadUtils();
+      const infos = leadUtils.getInfosAway(this.matchs, team.id);
+      retorno.push({ name: team.teamName,
+        totalPoints: infos.points,
+        totalGames: infos.games,
+        totalVictories: infos.victories,
+        totalDraws: infos.draws,
+        totalLosses: (infos.games - infos.victories - infos.draws),
+        goalsFavor: infos.awayGoals,
+        goalsOwn: infos.homeGoals,
+        goalsBalance: (infos.awayGoals - infos.homeGoals),
+        efficiency: Number(((infos.points / (infos.games * 3)) * 100).toFixed(2)),
+      });
+    });
+
+    return retorno as ILeaderboard[];
+  }
 }

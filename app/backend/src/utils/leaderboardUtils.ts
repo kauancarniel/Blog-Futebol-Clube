@@ -41,4 +41,24 @@ export default class LeadUtils {
     });
     return this.data;
   }
+
+  public getInfosAway(matches : IMatch[], id: number) : IData {
+    matches.forEach((match) => {
+      if (match.awayTeamId === id) {
+        if (match.awayTeamGoals === match.homeTeamGoals) this.homePoints += 1;
+        if (match.awayTeamGoals === match.homeTeamGoals) this.draws += 1;
+        if (match.awayTeamGoals > match.homeTeamGoals) this.homePoints += 3;
+        if (match.awayTeamGoals > match.homeTeamGoals) this.victories += 1;
+        this.games += 1;
+        this.homeGoals += match.homeTeamGoals;
+        this.awayGoals += match.awayTeamGoals;
+      } this.data = { points: this.homePoints,
+        games: this.games,
+        victories: this.victories,
+        draws: this.draws,
+        homeGoals: this.homeGoals,
+        awayGoals: this.awayGoals };
+    });
+    return this.data;
+  }
 }
