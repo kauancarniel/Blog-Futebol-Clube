@@ -4,26 +4,25 @@ import { IMatchModel } from '../Interfaces/matches/IMatchesModel';
 import { ILeaderboard } from '../Interfaces/leaderboard/ILeaderboard';
 import { ITeam } from '../Interfaces/teams/ITeams';
 import LeadUtils from '../utils/leaderboardUtils';
-import { IMatch } from '../Interfaces/matches/IMatches';
+// import { IMatch } from '../Interfaces/matches/IMatches';
 
 export default class LeaderboardService {
   constructor(
     private matchModel: IMatchModel = new MatchModel(),
     private teamModel = new TeamModel(),
     public teams: ITeam[] = [],
-    public matchs: IMatch[] = [],
   ) { this.func(); }
 
   public async func() : Promise<void> {
     this.teams = await this.teamModel.findAll();
-    this.matchs = await this.matchModel.findAllFinished();
   }
 
   public async leaderboard() : Promise<ILeaderboard[]> {
+    const matchs = await this.matchModel.findAllFinished();
     const retorno : ILeaderboard[] = [] as unknown as ILeaderboard[];
     this.teams.forEach((team) => {
       const leadUtils = new LeadUtils();
-      const infos = leadUtils.getInfos(this.matchs, team.id);
+      const infos = leadUtils.getInfos(matchs, team.id);
       retorno.push({ name: team.teamName,
         totalPoints: infos.points,
         totalGames: infos.games,
@@ -41,10 +40,11 @@ export default class LeaderboardService {
   }
 
   public async leaderboardAway() : Promise<ILeaderboard[]> {
+    const matchs = await this.matchModel.findAllFinished();
     const retorno : ILeaderboard[] = [] as unknown as ILeaderboard[];
     this.teams.forEach((team) => {
       const leadUtils = new LeadUtils();
-      const infos = leadUtils.getInfosAway(this.matchs, team.id);
+      const infos = leadUtils.getInfosAway(matchs, team.id);
       retorno.push({ name: team.teamName,
         totalPoints: infos.points,
         totalGames: infos.games,
