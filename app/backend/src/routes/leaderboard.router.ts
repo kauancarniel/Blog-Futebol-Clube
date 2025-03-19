@@ -7,6 +7,11 @@ const leaderController = new LeaderboardController();
 const router = Router();
 
 router.get(
+  '/',
+  (req: Request, res: Response) => leaderController.leaderboardAll(req, res),
+);
+
+router.get(
   '/home',
   (req: Request, res: Response) => leaderController.leaderboard(req, res),
 );
@@ -15,10 +20,5 @@ router.get(
   '/away',
   (req: Request, res: Response) => leaderController.leaderboardAway(req, res),
 );
-
-// router.get(
-//   '/',
-//   (req: Request, res: Response) => leaderController.leaderboardAll(req, res),
-// );
 
 export default router;
